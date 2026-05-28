@@ -1,0 +1,95 @@
+/* style.css */
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    background-color: #111; /* Σκούρο φόντο στην αφετηρία */
+    color: #eee;
+    overflow-x: hidden;
+}
+
+/* --- ΚΟΙΝΑ ΣΤΟΙΧΕΙΑ --- */
+h1, h2 { color: #ffd700; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+p { line-height: 1.8; color: #ccc; }
+
+.hidden { display: none; }
+
+/* --- ΑΦΕΤΗΡΙΑ (index.html) --- */
+#home { padding: 60px 20px; display: flex; flex-direction: column; align-items: center; min-height: 100vh;}
+#home h1 { font-size: 3em; margin-bottom: 10px; }
+#home p { font-size: 1.2em; margin-bottom: 50px; }
+
+.main-options-container {
+    display: flex; justify-content: center; gap: 40px;
+    width: 100%; max-width: 1200px; flex-wrap: wrap; margin-top: 30px;
+}
+
+/* Τα μεγάλα κουμπιά είναι πλέον 'a' tags (links) */
+.option-box {
+    text-decoration: none; background: #1a1a1a; border-radius: 20px;
+    width: 45%; min-width: 350px; height: 500px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.5); cursor: pointer;
+    transition: all 0.4s ease; border: 2px solid #333;
+    display: flex; flex-direction: column; overflow: hidden;
+}
+
+.option-box:hover {
+    transform: translateY(-10px); border-color: #ffd700;
+    box-shadow: 0 20px 40px rgba(255, 215, 0, 0.2);
+}
+
+/* Οι εικόνες στα κουμπιά της αφετηρίας */
+.home-image-preview {
+    width: 100%; height: 60%;
+    background-size: cover; background-position: center;
+    border-bottom: 1px solid #333;
+}
+
+.option-text { padding: 30px; flex-grow: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+.option-text h2 { font-size: 2em; margin: 0 0 10px 0; color: #fff; }
+.option-text p { color: #ccc; margin: 0 0 20px 0; }
+.action-btn { background: #ffd700; color: #111; padding: 10px 30px; border-radius: 25px; font-weight: bold; }
+
+/* --- ΣΕΛΙΔΕΣ ΠΕΡΙΕΧΟΜΕΝΟΥ (thales & eratosthenes) --- */
+.content-page {
+    background-color: #f4f4f9; color: #333; padding: 40px 20px; min-height: 100vh;
+}
+.content-page h2, .content-page h3 { color: #111; }
+.content-page p { color: #444; }
+
+.header-navigation {
+    width: 100%; max-width: 1200px; margin: 0 auto 30px auto;
+    display: flex; justify-content: flex-start;
+}
+.back-btn {
+    text-decoration: none; background: #333; color: white;
+    padding: 10px 20px; border-radius: 5px; font-weight: bold; transition: 0.3s;
+}
+.back-btn:hover { background: #ffd700; color: #111; }
+
+.page-title { font-size: 2.5em; margin-bottom: 40px; }
+
+/* Δομή Section */
+.info-section {
+    width: 100%; max-width: 1000px; margin: 0 auto 50px auto;
+    background: white; padding: 40px; border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    text-align: left;
+}
+.info-section h3 { border-bottom: 2px solid #ffd700; padding-bottom: 10px; margin-top: 0; }
+
+/* Interactive 3D Container */
+.model-section { padding: 0; overflow: hidden; background: #000; height: 550px; border: 4px solid #fff;}
+.model-container { width: 100%; height: 100%; cursor: grab; }
+.model-container:active { cursor: grabbing; }
+.instr { text-align: center; color: #777; font-style: italic; margin-top: 10px; }
+
+/* Interactive Calculator Field */
+.calc-field { background: #e0f0ff; border: 2px solid #b3d7ff; }
+.calc-container { display: flex; flex-direction: column; gap: 15px; margin-top: 20px; }
+.calc-input { padding: 10px; border-radius: 5px; border: 1px solid #ccc; font-size: 1em; }
+.calc-btn { background: #007bff; color: white; border: none; padding: 12px; border-radius: 5px; font-weight: bold; cursor: pointer; font-size: 1em;}
+.calc-btn:hover { background: #0056b3; }
+.calc-result { background: white; padding: 15px; border-radius: 5px; margin-top: 15px; border: 1px solid #ddd; font-weight: bold; text-align: center;}
