@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>metrisimegalwnpragmatwn.com</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: 'Segoe UI', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        h1 { margin-bottom: 50px; font-size: 2.5rem; text-transform: uppercase; letter-spacing: 2px; text-align: center; }
+        
+        .menu-container { display: flex; gap: 40px; }
+        
+        .card {
+            width: 300px;
+            height: 400px;
+            border: 2px solid #444;
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            /* Προσθέσαμε το opacity και το filter στο transition για να γίνεται ομαλά το σκοτείνιασμα */
+            transition: transform 0.4s, border-color 0.4s, opacity 0.4s, filter 0.4s;
+            text-decoration: none;
+            color: white;
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* 1. Μόλις ο κέρσορας μπει στο container, σκοτεινιάζουν ΚΑΙ ΟΙ ΔΥΟ κάρτες */
+        .menu-container:hover .card {
+            opacity: 0.35;
+            filter: grayscale(50%) brightness(0.5);
+        }
+
+        /* 2. Η συγκεκριμένη κάρτα που έχει τον κέρσορα φωτίζεται στο 100% και πετάγεται μπροστά */
+        .menu-container .card:hover {
+            transform: translateY(-15px);
+            border-color: #00ffcc;
+            opacity: 1;
+            filter: grayscale(0%) brightness(1.2); /* Γίνεται ακόμα πιο φωτεινή από το κανονικό */
+            box-shadow: 0 15px 30px rgba(0, 255, 254, 0.2); /* Πρόσθεσα ένα απαλό cyan glow στο πίσω μέρος */
+        }
+        
+        /* Σύνδεση με την τοπική σου εικόνα */
+        .card.thales { 
+            background-image: linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.7)), 
+            url('pyramid.jpg'); 
+        }
+        
+        /* Η Γη στο διάστημα */
+        .card.era { 
+            background-image: linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.7)), 
+            url('https://images.unsplash.com/photo-1614730321146-b6fa6a46bcb4?auto=format&fit=crop&q=80&w=500'); 
+        }
+
+        .card-content {
+            position: absolute;
+            bottom: 0;
+            padding: 20px;
+            background: rgba(0,0,0,0.85);
+            width: 100%;
+            box-sizing: border-box;
+        }
+        h2 { margin: 0 0 5px 0; font-size: 1.5rem; }
+        p { margin: 0; color: #ccc; font-size: 0.95rem; }
+    </style>
+</head>
+<body>
+    <h1>ΠΩΣ ΜΕΤΡΟΥΣΑΝ ΜΕΓΑΛΑ ΠΡΑΓΜΑΤΑ ΟΙ ΑΡΧΑΙΟΙ;</h1>
+    <div class="menu-container">
+        <a href="thales.html" class="card thales">
+            <div class="card-content">
+                <h2>Θαλής ο Μιλήσιος</h2>
+                <p>Μέτρηση πυραμιδών</p>
+            </div>
+        </a>
+        <a href="eratosthenes.html" class="card era">
+            <div class="card-content">
+                <h2>Ερατοσθένης</h2>
+                <p>Μέτρηση περιφέρειας Γης</p>
+            </div>
+        </a>
+    </div>
+</body>
+</html>

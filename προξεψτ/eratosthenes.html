@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <title>Ερατοσθένης - Η Γεωμετρία της Γης</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        body { background: #000; color: #fff; font-family: 'Segoe UI', sans-serif; margin: 0; overflow: hidden; }
+        
+        .info-card {
+            position: absolute; top: 20px; left: 20px; z-index: 100;
+            background: rgba(10, 10, 10, 0.95); padding: 0; border-radius: 20px;
+            border: 2px solid #ffcc00; max-width: 420px; box-shadow: 0 0 30px rgba(255,204,0,0.2);
+            overflow: hidden;
+        }
+
+        .tabs { display: flex; background: #222; border-bottom: 1px solid #333; }
+        .tab-btn { 
+            flex: 1; padding: 12px; border: none; background: none; color: #888; 
+            cursor: pointer; font-weight: bold; transition: 0.3s; font-size: 0.85rem;
+        }
+        .tab-btn.active { color: #ffcc00; background: rgba(255,204,0,0.1); }
+        
+        .tab-content { padding: 20px; display: none; min-height: 180px; line-height: 1.5; }
+        .tab-content.active { display: block; }
+
+        h2 { color: #ffcc00; margin: 0 0 10px 0; font-size: 1.4rem; }
+        p { line-height: 1.5; color: #eee; font-size: 0.95rem; margin: 0 0 10px 0; }
+        b { color: #ffcc00; }
+        
+        .ui-panel {
+            position: absolute; bottom: 30px; right: 30px;
+            background: #111; padding: 25px; border-radius: 20px;
+            border: 2px solid #ffcc00; width: 320px; text-align: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+            z-index: 100;
+        }
+        input[type=range] { width: 100%; accent-color: #ffcc00; cursor: pointer; }
+        .res-big { font-size: 2.2rem; color: #ffcc00; margin-top: 10px; font-weight: bold; transition: text-shadow 0.3s, color 0.3s; }
+        /* Εφέ λάμψης όταν κλειδώνει η σωστή απάντηση */
+        .res-big.locked { color: #00ffcc; text-shadow: 0 0 15px rgba(0,255,204,0.6); }
+        
+        .back-btn { padding: 10px 20px; color: #555; text-decoration: none; font-size: 0.8rem; display: block; text-align: center; border-top: 1px solid #222; }
+        .back-btn:hover { color: #ffcc00; }
+    </style>
+</head>
+<body>
+
+    <div class="info-card">
+        <div class="tabs">
+            <button class="tab-btn active" onclick="openTab(event, 'bio')">Ιστορία</button>
+            <button class="tab-btn" onclick="openTab(event, 'science')">Πείραμα</button>
+        </div>
+
+        <div id="bio" class="tab-content active">
+            <h2>Ποιος ήταν;</h2>
+            <p>Ο Ερατοσθένης γεννήθηκε στην Κυρήνη τον 3ο αιώνα π.Χ. και έζησε κυρίως στην Αλεξάνδρεια της Αιγύπτου, που εκείνη την εποχή αποτελούσε ένα από τα σημαντικότερα κέντρα επιστήμης και πολιτισμού του αρχαίου κόσμου. Υπήρξε επικεφαλής της Βιβλιοθήκης της Αλεξάνδρειας, μιας από τις πιο φημισμένες βιβλιοθήκες της αρχαιότητας, και ξεχώρισε ως πολυεπιστήμονας, καθώς ασχολήθηκε με μαθηματικά, γεωγραφία, αστρονομία αλλά και ποίηση. Θεωρείται από τους πρώτους επιστήμονες που προσέγγισαν τη μελέτη της Γης με συστηματικό τρόπο, θέτοντας τις βάσεις της επιστήμης της γεωγραφίας. Το έργο του δεν έχει σωθεί πλήρως και είναι γνωστό κυρίως μέσα από μεταγενέστερες πηγές, ωστόσο η συμβολή του στην επιστήμη θεωρείται θεμελιώδης και διαχρονική.</p>
+        </div>
+
+        <div id="science" class="tab-content">
+            <h2>Η Μέθοδος</h2>
+            <p>Ο Ερατοσθένης υπολόγισε την περιφέρεια της Γης χρησιμοποιώντας τη γεωμετρία της εποχής του και παρατηρώντας τον ήλιο. Παρατήρησε ότι στη Συήνη το μεσημέρι του θερινού ηλιοστασίου ο Ήλιος βρισκόταν κατακόρυφα, ενώ στην Αλεξάνδρεια σχημάτιζε γωνία 7,2°. Υποθέτοντας ότι οι ακτίνες του Ήλιου είναι παράλληλες και η Γη σφαιρική, συνέδεσε τη γωνία αυτή με το 1/50 του κύκλου. Γνωρίζοντας την απόσταση των δύο πόλεων (~5000 στάδια), υπολόγισε την περιφέρεια της Γης σε περίπου 252.000 στάδια, πολύ κοντά στη σύγχρονη τιμή. Παρά τις ανακρίβειες σε αποστάσεις και μονάδες, η μέθοδός του ήταν επιστημονικά πρωτοποριακή και βασισμένη στη λογική και τη παρατήρηση.</p>
+        </div>
+        
+        <a href="index.html" class="back-btn">← Επιστροφή στο Μενού</a>
+    </div>
+
+    <div class="ui-panel">
+        <div style="font-size: 1.1rem; margin-bottom: 10px;">Γωνία στο Πείραμα: <span id="ang-txt" style="color:#ffcc00; font-weight:bold;">7.2</span>°</div>
+        <input type="range" id="ang-slide" min="1" max="20" step="0.1" value="7.2" oninput="update()">
+        <div style="margin-top:15px; color:#aaa;">Υπολογιζόμενη Περιφέρεια Γης:</div>
+        <div class="res-big" id="res">40,000 km</div>
+    </div>
+
+    <script>
+        let sc, cam, rend, earth, stickA, sS, sun, controls, lineA, lineS;
+        let hasFired = false; // Έλεγχος για να μην ρίχνει κονφετί συνέχεια όσο είναι κλειδωμένο
+
+        function openTab(evt, tabName) {
+            let i, content, btns;
+            content = document.getElementsByClassName("tab-content");
+            for (i = 0; i < content.length; i++) content[i].classList.remove("active");
+            btns = document.getElementsByClassName("tab-btn");
+            for (i = 0; i < btns.length; i++) btns[i].classList.remove("active");
+            document.getElementById(tabName).classList.add("active");
+            evt.currentTarget.classList.add("active");
+        }
+
+        function init() {
+            sc = new THREE.Scene();
+            cam = new THREE.PerspectiveCamera(45, window.innerWidth/window.innerHeight, 0.1, 1000);
+            cam.position.set(0, 5, 35); 
+
+            rend = new THREE.WebGLRenderer({ antialias: true });
+            rend.setSize(window.innerWidth, window.innerHeight);
+            rend.shadowMap.enabled = true;
+            rend.shadowMap.type = THREE.PCFSoftShadowMap; 
+            document.body.appendChild(rend.domElement);
+            controls = new THREE.OrbitControls(cam, rend.domElement);
+
+            // 1. ΔΙΑΦΑΝΗΣ ΓΗ
+            const earthGeo = new THREE.SphereGeometry(10, 64, 64);
+            const earthMat = new THREE.MeshPhongMaterial({ 
+                color: 0x112233, transparent: true, opacity: 0.6, shininess: 20 
+            });
+            earth = new THREE.Mesh(earthGeo, earthMat);
+            earth.receiveShadow = true;
+            sc.add(earth);
+
+            // 2. ΚΕΝΤΡΟ ΓΗΣ
+            const core = new THREE.Mesh(new THREE.SphereGeometry(0.3, 16, 16), new THREE.MeshBasicMaterial({color: 0xffcc00}));
+            sc.add(core);
+
+            // 3. ΗΛΙΟΣ
+            sun = new THREE.DirectionalLight(0xffffff, 2.5);
+            sun.castShadow = true;
+            sun.shadow.mapSize.width = 2048;
+            sun.shadow.mapSize.height = 2048;
+            sc.add(sun);
+            sc.add(new THREE.AmbientLight(0xffffff, 0.2));
+
+            // 4. ΓΡΑΜΜΕΣ ΑΠΟ ΤΟ ΚΕΝΤΡΟ
+            const matLine = new THREE.LineBasicMaterial({ color: 0xffcc00 });
+            const dist = 11.5;
+            
+            // Συήνη (Νότος)
+            const geoS = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(0,0,0), new THREE.Vector3(dist,0,0)]);
+            lineS = new THREE.Line(geoS, matLine);
+            sc.add(lineS);
+
+            // Αλεξάνδρεια (Βορράς)
+            const alexRad = 7.2 * (Math.PI / 180);
+            const geoA = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(0,0,0), new THREE.Vector3(Math.cos(alexRad)*dist, Math.sin(alexRad)*dist, 0)]);
+            lineA = new THREE.Line(geoA, matLine);
+            sc.add(lineA);
+
+            // 5. ΚΟΝΤΑΡΙΑ
+            sS = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.12, 3), new THREE.MeshPhongMaterial({color: 0x00ff00}));
+            sS.position.set(11.2, 0, 0); sS.rotation.z = Math.PI/2;
+            sS.castShadow = true; sS.receiveShadow = true;
+            sc.add(sS);
+
+            stickA = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.12, 3), new THREE.MeshPhongMaterial({color: 0xff00ff}));
+            stickA.position.set(Math.cos(alexRad)*11.2, Math.sin(alexRad)*11.2, 0);
+            stickA.rotation.z = Math.PI/2 + alexRad;
+            stickA.castShadow = true; stickA.receiveShadow = true;
+            sc.add(stickA);
+
+            update();
+            anim();
+        }
+
+        function update() {
+            let slider = document.getElementById('ang-slide');
+            let val = parseFloat(slider.value);
+            const resText = document.getElementById('res');
+
+            // ΛΟΓΙΚΗ LOCK (Μαγνητισμός): Αν πλησιάσει στις 7.2 μοίρες, λοκάρει εκεί
+            if (val >= 6.9 && val <= 7.5) {
+                val = 7.2;
+                slider.value = 7.2; // Μετακινεί και τη λαβή του slider αυτόματα
+                resText.classList.add('locked'); // Προσθήκη custom CSS κλάσης για εφέ
+
+                // Ενεργοποίηση κονφετί (τρέχει μόνο μια φορά ανά lock)
+                if (!hasFired) {
+                    triggerConfetti();
+                    hasFired = true;
+                }
+            } else {
+                resText.classList.remove('locked');
+                hasFired = false; // Reset όταν βγαίνει από την περιοχή lock
+            }
+
+            document.getElementById('ang-txt').innerText = val.toFixed(1);
+            
+            const sunAngleDeg = val - 7.2;
+            const sunRad = sunAngleDeg * (Math.PI / 180);
+
+            const radius = 50;
+            sun.position.set(Math.cos(sunRad) * radius, Math.sin(sunRad) * radius, 0);
+
+            const currentAngle = val > 0 ? val : 0.1;
+            const total = 800 * (360 / currentAngle);
+            resText.innerText = `${Math.round(total).toLocaleString()} km`;
+        }
+
+        // Συνάρτηση που πετάει τα κονφετί από τις δύο κάτω γωνίες της οθόνης
+        function triggerConfetti() {
+            const duration = 1.5 * 1000;
+            const end = Date.now() + duration;
+
+            (function frame() {
+                confetti({
+                    particleCount: 4,
+                    angle: 60,
+                    spread: 55,
+                    origin: { x: 0, y: 0.9 } // Αριστερή γωνία
+                });
+                confetti({
+                    particleCount: 4,
+                    angle: 120,
+                    spread: 55,
+                    origin: { x: 1, y: 0.9 } // Δεξιά γωνία
+                });
+
+                if (Date.now() < end) {
+                    requestAnimationFrame(frame);
+                }
+            }());
+        }
+
+        function anim() {
+            requestAnimationFrame(anim);
+            controls.update();
+            rend.render(sc, cam);
+        }
+
+        window.addEventListener('resize', () => {
+            cam.aspect = window.innerWidth / window.innerHeight;
+            cam.updateProjectionMatrix();
+            rend.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        init();
+    </script>
+</body> 
+</html>

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <title>Θαλής - Η Μέθοδος των Σκιών</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <style>
+        body { background: #000; color: #fff; font-family: 'Segoe UI', sans-serif; margin: 0; overflow: hidden; }
+        
+        .info-card {
+            position: absolute; top: 20px; left: 20px; z-index: 100;
+            background: rgba(15, 15, 15, 0.95); padding: 0; border-radius: 20px;
+            border: 2px solid #00ffcc; max-width: 420px; box-shadow: 0 0 30px rgba(0,255,204,0.3);
+            overflow: hidden;
+        }
+
+        .tabs { display: flex; background: #222; border-bottom: 1px solid #333; }
+        .tab-btn { 
+            flex: 1; padding: 12px; border: none; background: none; color: #888; 
+            cursor: pointer; font-weight: bold; transition: 0.3s; font-size: 0.85rem;
+        }
+        .tab-btn.active { color: #00ffcc; background: rgba(0,255,204,0.1); }
+        
+        .tab-content { padding: 20px; display: none; min-height: 180px; }
+        .tab-content.active { display: block; }
+
+        h2 { color: #00ffcc; margin: 0 0 10px 0; font-size: 1.4rem; }
+        p { line-height: 1.5; color: #f0f0f0; font-size: 0.95rem; margin-bottom: 10px; }
+        b { color: #00ffcc; }
+
+        .calc-bar {
+            position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
+            background: rgba(20, 20, 20, 0.95); padding: 15px 35px; border-radius: 50px;
+            border: 2px solid #00ffcc; display: flex; gap: 20px; align-items: center; z-index: 100;
+        }
+        input { background: #000; color: #00ffcc; border: 2px solid #00ffcc; padding: 8px; border-radius: 8px; width: 65px; text-align: center; font-weight: bold; }
+        
+        /* Στυλ για το κλειδωμένο input */
+        input:disabled { background: #111; color: #666; border-color: #444; cursor: not-allowed; }
+        
+        .back-btn { padding: 10px 20px; color: #555; text-decoration: none; font-size: 0.8rem; display: block; text-align: center; border-top: 1px solid #222; }
+        .back-btn:hover { color: #00ffcc; }
+    </style>
+</head>
+<body>
+
+    <div class="info-card">
+        <div class="tabs">
+            <button class="tab-btn active" onclick="openTab(event, 'method')">Η Μέθοδος</button>
+            <button class="tab-btn" onclick="openTab(event, 'history')">Ιστορία</button>
+            <button class="tab-btn" onclick="openTab(event, 'how')">Πώς το έκανε;</button>
+        </div>
+
+        <div id="method" class="tab-content active">
+            <h2>Πώς μέτρησε την πυραμίδα;</h2>
+            <p>Ο <b>Θαλής</b> το κατάφερε χρησιμοποιώντας τον ήλιο και τη γεωμετρία! Το μυστικό κρύβεται στα «όμοια τρίγωνα»:
+Περίμενε τη στιγμή της ημέρας που η σκιά από το ξυλάκι του έγινε ακριβώς ίση με το πραγματικό του ύψος. Εκείνη ακριβώς τη στιγμή, ήξερε ότι και η σκιά της πυραμίδας θα ήταν ακριβώς ίση με το δικό της ύψος!</p>
+        </div>
+
+        <div id="history" class="tab-content">
+            <h2>Ποιος ήταν ο Θαλής;</h2>
+            <p>Έζησε στη <b>Μίλητο</b> γύρω στο 624 π.Χ. Θεωρείται ο πρώτος φιλόσοφος, γιατί έψαχνε απαντήσεις στη φύση και όχι στους θεούς.</p>
+            <p>Ήταν ένας από τους <b>Επτά Σοφούς</b> και προέβλεψε ακόμη και μια έκλειψη ηλίου!</p>
+        </div>
+
+        <div id="how" class="tab-content">
+            <h2>Το μυστικό της άμμου</h2>
+            <p>Ο Θαλής ο Μιλήσιος κατάλαβε ότι τη στιγμή που η σκιά ενός ανθρώπου ισούται με το ανάστημά του, το ίδιο συμβαίνει και με την πυραμίδα. Για να βρει αυτή την ακριβή στιγμή, σχεδίασε στην άμμο έναν κύκλο με ακτίνα ίση με το ύψος του και στάθηκε στο κέντρο. Μόλις η σκιά του άγγιξε την περιφέρεια του κύκλου, ήξερε ότι το ύψος του και η σκιά του ήταν πλέον ίσα.
+
+Επειδή όμως ένα μέρος της σκιάς της πυραμίδας ήταν «κρυμμένο» μέσα στη βάση της, ο Θαλής πρόσθεσε στο μήκος της εξωτερικής σκιάς το μισό της πλευράς της βάσης. Με αυτόν τον ευφυή υπολογισμό, εκτίμησε το ύψος της πυραμίδας σε 276,25 πήχεις, πλησιάζοντας εντυπωσιακά την πραγματική τιμή των 280 πήχεων (147 μέτρα). Η μέθοδός του παραμένει μέχρι σήμερα ένα κορυφαίο παράδειγμα του πώς η απλή γεωμετρία μπορεί να λύσει μεγάλα προβλήματα.</p>
+            <p>Ήταν η πιο απλή και τέλεια εφαρμογή των <b>όμοιων τριγώνων</b> στην ιστορία!</p>
+        </div>
+        
+        <a href="index.html" class="back-btn">← Επιστροφή στο Μενού</a>
+    </div>
+
+    <div class="calc-bar">
+        <span>Ξυλάκι: <input type="number" id="h-stick" value="1.0" step="0.1" disabled>μ</span>
+        <span>Σκιά: <input type="number" id="s-stick" value="1.0" step="0.1" oninput="runLogic()">μ</span>
+        <div id="final-res" style="font-weight:bold"></div>
+    </div>
+
+    <script>
+        // Tab Logic
+        function openTab(evt, tabName) {
+            let i, content, btns;
+            content = document.getElementsByClassName("tab-content");
+            for (i = 0; i < content.length; i++) content[i].classList.remove("active");
+            btns = document.getElementsByClassName("tab-btn");
+            for (i = 0; i < btns.length; i++) btns[i].classList.remove("active");
+            document.getElementById(tabName).classList.add("active");
+            evt.currentTarget.classList.add("active");
+        }
+
+        // Three.js Logic
+        let scene, camera, renderer, sun, pyramid, stick, controls;
+        function init() {
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(45, window.innerWidth/window.innerHeight, 0.1, 1000);
+            camera.position.set(40, 30, 50);
+            renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.shadowMap.enabled = true;
+            renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+            document.body.appendChild(renderer.domElement);
+            controls = new THREE.OrbitControls(camera, renderer.domElement);
+
+            const ground = new THREE.Mesh(new THREE.PlaneGeometry(2000, 2000), new THREE.MeshPhongMaterial({ color: 0x1a1a1a }));
+            ground.rotation.x = -Math.PI/2; ground.receiveShadow = true; scene.add(ground);
+
+            pyramid = new THREE.Mesh(new THREE.ConeGeometry(15, 22, 4), new THREE.MeshPhongMaterial({ color: 0xffffff }));
+            pyramid.position.y = 11; pyramid.castShadow = true; pyramid.receiveShadow = true; scene.add(pyramid);
+
+            stick = new THREE.Mesh(new THREE.CylinderGeometry(0.4, 0.4, 6, 16), new THREE.MeshPhongMaterial({ color: 0xff00ff }));
+            stick.position.set(30, 3, 20); stick.castShadow = true; scene.add(stick);
+
+            sun = new THREE.DirectionalLight(0xffffff, 1.8); sun.castShadow = true;
+            sun.shadow.mapSize.width = 4096; sun.shadow.mapSize.height = 4096;
+            sun.shadow.camera.left = -100; sun.shadow.camera.right = 100;
+            sun.shadow.camera.top = 100; sun.shadow.camera.bottom = -100;
+            scene.add(sun); scene.add(new THREE.AmbientLight(0xffffff, 0.4));
+
+            runLogic(); animate();
+        }
+
+        function runLogic() {
+            const h = parseFloat(document.getElementById('h-stick').value) || 1;
+            const s = parseFloat(document.getElementById('s-stick').value) || 1;
+            const angle = Math.atan2(h, s);
+            const dist = 80;
+            sun.position.set(Math.cos(angle)*dist, Math.sin(angle)*dist, 20);
+            const pyH = 139; const pyS = (pyH * s) / h;
+            document.getElementById('final-res').innerHTML = `Πυραμίδα: ${pyH}μ | Σκιά: <span style="color:#00ffcc">${pyS.toFixed(1)}μ</span>`;
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            controls.update();
+            renderer.render(scene, camera);
+        }
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        init();
+    </script>
+</body>
+</html>
